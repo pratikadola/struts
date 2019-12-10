@@ -11,6 +11,8 @@ import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Primary;
 
+import static java.util.Arrays.asList;
+
 @SpringBootApplication
 public class Application {
 
@@ -18,11 +20,12 @@ public class Application {
         SpringApplication.run(Application.class, args);
     }
 
-    @Primary
+    @Bean
     public FilterRegistrationBean siteMeshFilter() {
         FilterRegistrationBean filterRegistrationBean = new FilterRegistrationBean();
         filterRegistrationBean.setFilter(new SiteMeshFilter());
-        filterRegistrationBean.addUrlPatterns("/*");
+        filterRegistrationBean.setUrlPatterns(asList("/*"));
+        filterRegistrationBean.setOrder(1);
         return filterRegistrationBean;
     }
 
@@ -30,7 +33,8 @@ public class Application {
     public FilterRegistrationBean strutsPrepareAndExecuteFilter() {
         FilterRegistrationBean filterRegistrationBean = new FilterRegistrationBean();
         filterRegistrationBean.setFilter(new StrutsPrepareAndExecuteFilter());
-        filterRegistrationBean.addUrlPatterns("/","/addUserForm.action","/addUser.action","/findUserForm.action","/findUser.action","/listAllUsers.action");
+        filterRegistrationBean.setUrlPatterns(asList("/","/addUserForm.action","/addUser.action","/findUserForm.action","/findUser.action","/listAllUsers.action"));
+        filterRegistrationBean.setOrder(2);
         return filterRegistrationBean;
     }
 
